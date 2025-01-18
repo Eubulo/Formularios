@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Ação do Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #83a4d4, #b6fbff);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: linear-gradient(to bottom right, #1e293b, #334155);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .container h1 {
+            margin-bottom: 10px;
+        }
+        .container img {
+            max-width: 150px;
+            margin-bottom: 15px;
+        }
+        .container p {
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #d1d5db;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+            width: 100%;
+            max-width: 400px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #e5e7eb;
+            color: #1f2937;
+            box-sizing: border-box;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/NIVEA_logo_2021.svg/1024px-NIVEA_logo_2021.svg.png" alt="Logo NIVEA">
+        <h1>Ação de Sell Out</h1>
+        <p>Este formulário tem como objetivo facilitar o registro e acompanhamento de ações de ativação em seu ponto de venda. Preencha as informações solicitadas para que possamos atender às suas necessidades de forma eficiente.</p>
+        <form id="multiStepForm">
+            <!-- Step 1 -->
+            <div id="step1" class="step">
+                <div class="form-group">
+                    <label for="requesterName">Nome do Solicitante</label>
+                    <input type="text" id="requesterName" name="requesterName" required>
+                </div>
+                <div class="form-group">
+                    <label for="clientName">Cliente</label>
+                    <input type="text" id="clientName" name="clientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <button type="button" onclick="nextStep(2)">Próximo</button>
+            </div>
+
+            <!-- Step 2 -->
+            <div id="step2" class="step hidden">
+                <div class="form-group">
+                    <label for="action">Selecione a Ação</label>
+                    <select id="action" name="action" multiple required>
+                        <option value="desodorante_150">Desodorante 150 ml</option>
+                        <option value="desodorante_clinical">Desodorante Aerossol Clinical</option>
+                        <option value="sabonete_85">Sabonete 85g</option>
+                        <option value="sabonete_90">Sabonete 90g</option>
+                        <option value="hidratante_400">Hidratante 400 ml</option>
+                        <option value="hidratante_200">Hidratante 200 ml</option>
+                        <option value="potinhos_100">Potinhos 100g</option>
+                        <option value="protetor_labial">Protetor Labial</option>
+                        <option value="sabonete_facial_gel">Sabonete Facial Gel</option>
+                        <option value="protetor_solar_50">Protetor Solar FPS 50</option>
+                        <option value="protetor_solar_70">Protetor Solar FPS 70</option>
+                        <option value="protetor_solar_facial">Protetor Solar Facial</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="price">Preços de Ações Selecionadas</label>
+                    <textarea id="price" name="price" rows="5" placeholder="Informe os preços para cada ação selecionada, separando por vírgulas."></textarea>
+                </div>
+                <button type="button" onclick="previousStep(1)">Voltar</button>
+                <button type="button" onclick="nextStep(3)">Próximo</button>
+            </div>
+
+            <!-- Step 3 -->
+            <div id="step3" class="step hidden">
+                <div class="form-group">
+                    <label for="startDate">Data de Início</label>
+                    <input type="date" id="startDate" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="endDate">Data de Fim</label>
+                    <input type="date" id="endDate" name="endDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="extraEmails">E-mails Adicionais (separados por vírgula)</label>
+                    <textarea id="extraEmails" name="extraEmails" rows="3"></textarea>
+                </div>
+                <button type="button" onclick="previousStep(2)">Voltar</button>
+                <button type="submit">Enviar</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function nextStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`step${step}`).classList.remove('hidden');
+        }
+
+        function previousStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`step${step}`).classList.remove('hidden');
+        }
+
+        document.getElementById('multiStepForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = {
+                requesterName: document.getElementById('requesterName').value,
+                clientName: document.getElementById('clientName').value,
+                email: document.getElementById('email').value,
+                actions: Array.from(document.getElementById('action').selectedOptions).map(option => option.value),
+                prices: document.getElementById('price').value,
+                startDate: document.getElementById('startDate').value,
+                endDate: document.getElementById('endDate').value,
+                extraEmails: document.getElementById('extraEmails').value
+            };
+
+            console.log('Dados do Formulário:', formData);
+            alert('Formulário enviado com sucesso!');
+            document.getElementById('multiStepForm').reset();
+            nextStep(1);
+        });
+    </script>
+</body>
+</html>
