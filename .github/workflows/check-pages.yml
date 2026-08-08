@@ -1,0 +1,26 @@
+name: Check GitHub Pages
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check-pages:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check public Pages API
+        shell: bash
+        run: |
+          set -e
+          code=$(curl -sS -o /tmp/pages.json -w "%{http_code}" "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages")
+          echo "PAGES_HTTP_STATUS=$code"
+          echo "PAGES_RESPONSE_BEGIN"
+          cat /tmp/pages.json
+          echo
+          echo "PAGES_RESPONSE_END"
+          if [ "$code" != "200" ]; then
+            exit 2
+          fi
